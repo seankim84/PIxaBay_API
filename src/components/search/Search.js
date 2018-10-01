@@ -9,17 +9,19 @@ class Search extends Component {
 
     state = {
         searchText:'',
-        amount: 15,
+        amount: 10,
         apiUrl: 'https://pixabay.com/api',
         apiKey: '10273023-55ba2355bd5ce1c49ee9e494a',
-        imgages: []
+        images: []
     }
 
     onTextChange = (e) => {
         this.setState({[e.target.name]: e.target.value}, () => {
-            Axios.get(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&
-            per_page=${this.state.amount}&safesearch=true`)
-            .then(res => this.setState({images: res.data.hits}))
+            Axios.get(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
+                this.state.searchText
+            }&image_type=photo&per_page=${this.state.amount}&safesearch=true`
+            )
+            .then(res => this.setState({ images: res.data.hits }))
             .catch(err => console.log(err));
         });
     } 
@@ -50,6 +52,7 @@ class Search extends Component {
                     <MenuItem value={50} primaryText="50" />
                 </SelectField>
                 <br />
+                {this.state.images.length > 0 ? (<ImageResults images={this.state.images} />) : null}
             </div>
         );
     }
